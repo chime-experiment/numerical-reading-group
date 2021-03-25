@@ -1,0 +1,7 @@
+.reveal {
+    font-size: 30px;
+}
+
+li:not(:last-child) {
+    margin-bottom: 5px;
+}

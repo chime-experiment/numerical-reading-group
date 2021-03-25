@@ -1,0 +1,172 @@
+%!TEX root=beamforming.tex
+
+%%% Standard math package imports
+\usepackage{amsmath}
+\usepackage{mathtools}
+
+
+
+%%% Derivatives
+\newcommand\pdiff[1]{\frac{\partial}{\partial #1}}
+\newcommand\diff[2]{\frac{d #1}{d #2}}
+\newcommand{\curl}{\,\mbox{curl}\,}
+\newcommand\del{\nabla}
+\newcommand{\grad}[1][]{\ensuremath{\mathbf{\nabla} #1}}
+
+
+
+%% Macros for inserting various types of brackets
+\newcommand{\la}{\ensuremath{\left\langle}}  % Angle brackets
+\newcommand{\ra}{\ensuremath{\right\rangle}}
+
+\newcommand{\lv}{\ensuremath{\left\lvert}}   % Vertical bars
+\newcommand{\rv}{\ensuremath{\right\rvert}}
+
+\newcommand{\ls}{\ensuremath{\left[}}        % Square brackets
+\newcommand{\rs}{\ensuremath{\right]}}
+
+\newcommand{\lp}{\ensuremath{\left(}}        % Parentheses
+\newcommand{\rp}{\ensuremath{\right)}}
+
+
+
+%%% Macros for linear algebra notation
+\newcommand{\vecr}[1]{\mathbf{#1}}
+\newcommand{\mat}[1]{\mathbf{#1}}
+
+% Hermitian conjugate symbol
+\newcommand{\hconj}{\ensuremath{\dagger}}
+
+% Lower case vectors
+\newcommand{\va}{\vecr{a}}
+\newcommand{\vc}{\vecr{c}}
+\newcommand{\vf}{\vecr{f}}
+\newcommand{\vk}{\vecr{k}}
+\newcommand{\vn}{\vecr{n}}
+\newcommand{\vr}{\vecr{r}}
+\newcommand{\vs}{\vecr{s}}
+\newcommand{\vt}{\vecr{t}}
+\newcommand{\vu}{\vecr{u}}
+\newcommand{\vv}{\vecr{v}}
+\newcommand{\vw}{\vecr{w}}
+\newcommand{\vx}{\vecr{x}}
+\newcommand{\vy}{\vecr{y}}
+
+% Unit vectors
+\newcommand{\vdhat}{\hat{\vecr{d}}}
+\newcommand{\vnhat}{\hat{\vecr{n}}}
+\newcommand{\vphat}{\hat{\vecr{p}}}
+\newcommand{\vuhat}{\hat{\vecr{u}}}
+\newcommand{\vvhat}{\hat{\vecr{v}}}
+\newcommand{\vxhat}{\hat{\vecr{x}}}
+\newcommand{\vyhat}{\hat{\vecr{y}}}
+\newcommand{\vzhat}{\hat{\vecr{z}}}
+
+% Vectors with tildes
+\newcommand{\vnt}{\tilde{\vecr{n}}}
+\newcommand{\vvt}{\tilde{\vecr{v}}}
+\newcommand{\vxt}{\tilde{\vecr{x}}}
+
+% Vectors with bars
+\newcommand{\vnb}{\bar{\vecr{n}}}
+\newcommand{\vvb}{\bar{\vecr{v}}}
+
+% Upper case vectors
+\newcommand{\vA}{\vecr{A}}
+\newcommand{\vE}{\vecr{E}}
+\newcommand{\vH}{\vecr{H}}
+\newcommand{\vS}{\vecr{S}}
+
+% Greek vectors
+\newcommand{\veps}{\vecr{\varepsilon}}
+
+
+% Upper case matrices
+\newcommand{\mA}{\mat{A}}
+\newcommand{\mB}{\mat{B}}
+\newcommand{\mC}{\mat{C}}
+\newcommand{\mE}{\mat{E}}
+\newcommand{\mF}{\mat{F}}
+\newcommand{\mG}{\mat{G}}
+\newcommand{\mI}{\mat{I}}
+\newcommand{\mJ}{\mat{J}}
+\newcommand{\mK}{\mat{K}}
+\newcommand{\mM}{\mat{M}}
+\newcommand{\mN}{\mat{N}}
+\newcommand{\mP}{\mat{P}}
+\newcommand{\mQ}{\mat{Q}}
+\newcommand{\mR}{\mat{R}}
+\newcommand{\mS}{\mat{S}}
+\newcommand{\mT}{\mat{T}}
+\newcommand{\mU}{\mat{U}}
+\newcommand{\mV}{\mat{V}}
+\newcommand{\mW}{\mat{W}}
+\newcommand{\mX}{\mat{X}}
+\newcommand{\mY}{\mat{Y}}
+
+\newcommand{\mNh}{\mat{N}^{\scriptscriptstyle -\frac{1}{2}}}
+
+% Matrices with tildes
+\newcommand{\mBt}{\tilde{\mat{B}}}
+\newcommand{\mCt}{\tilde{\mat{C}}}
+\newcommand{\mNt}{\tilde{\mat{N}}}
+\newcommand{\mQt}{\tilde{\mat{Q}}}
+\newcommand{\mSt}{\tilde{\mat{S}}}
+
+% Matrices denoted by greek letters
+\newcommand{\mGamma}{\mat{\Gamma}}
+\newcommand{\mLambda}{\mat{\Lambda}}
+\newcommand{\mLambdat}{\tilde{\mat{\Lambda}}}  % with a tilde
+\newcommand{\mSigma}{\mat{\Sigma}}
+
+%Matrices with bars
+\newcommand{\mBb}{\bar{\mat{B}}}
+\newcommand{\mCb}{\bar{\mat{C}}}
+\newcommand{\mFb}{\bar{\mat{F}}}
+\newcommand{\mNb}{\bar{\mat{N}}}
+\newcommand{\mSb}{\bar{\mat{S}}}
+
+% Matrices with hats
+\newcommand{\mChat}{\hat{\mat{C}}}
+
+
+
+%%% Add some new operators
+% \DeclareMathOperator{\sinc}{sinc}
+% \DeclareMathOperator{\tri}{tri}
+% \DeclareMathOperator{\tr}{tr}
+% \DeclareMathOperator{\Tr}{Tr}
+% \DeclareMathOperator{\Cov}{Cov}
+% \DeclareMathOperator{\mvec}{vec}
+
+
+\newcommand{\brsc}[1]{{\ensuremath{\scriptscriptstyle (#1)}}}
+
+
+%%% Miscellaneous symbols
+
+% Caligraphic letters
+\newcommand{\calF}{\mathcal{F}}
+\newcommand{\calG}{\mathcal{G}}
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calP}{\mathcal{P}}
+\newcommand{\calW}{\mathcal{W}}
+
+% Text for denoting max and min
+\newcommand{\tmax}{\ensuremath{\text{max}}}
+\newcommand{\tmin}{\ensuremath{\text{min}}}
+
+% Binary operators
+\newcommand{\kprod}{\otimes}
+
+% Measure for integrating over the sphere
+\newcommand{\dhn}{d^2\hat{n}}
+
+
+%%% Units for cosmology (generally try to use the siunitx packages)
+\newcommand{\hMpc}{\;h^{-1}\:\mathrm{Mpc}}
+\newcommand{\ihMpc}{\;h\:\mathrm{Mpc}^{-1}}
+
+\newcommand{\eps}{\varepsilon}
+
+\newcommand{\prob}[1]{\mathrm{Pr}(#1)}
