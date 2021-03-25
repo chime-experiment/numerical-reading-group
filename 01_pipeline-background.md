@@ -42,8 +42,47 @@ like Spark/Hadoop etc.
 - Lowest level containers are `caput.memh5.MemDiskGroup`, but to be most useful they should derive from `draco.core.containers.ContainerBase`
   - Provides an easy way to define a container, and easy methods to derive them from input containers
 
+## Minimal Container Example
 
-## Container example
+- An `_axes` attribute gives the set of axes which must be specified at initialisation.
+- A `_dataset_spec` dict attribute describes the datasets that can exist.
+  - Each key gives the dataset name
+  - Each value is a `dict` describing the dataset structure. `"axes"` names the axis
+  for each dimension of the array, `"dtype"` gives a `numpy` datatype for each
+  element of the array
+```python
+class FooContainer(ContainerBase):
+    _axes = ("foo",)
+
+    _dataset_spec = {
+        "fooset": {"axes": ["foo"], "dtype": np.float64}
+        }
+    }
+```
+
+## Container Inheritance
+
+- Containers inherit both axes and datasets
+```python
+class FooContainer(ContainerBase):
+    _axes = ("foo",)
+
+    _dataset_spec = {
+        "fooset": {"axes": ["foo"], "dtype": np.float64}
+        }
+    }
+
+# Bar implicitly gets a foo axis will also have a `fooset` dataset
+class BarContainer(FooContainer):
+    _axes = ("bar",)
+
+    _dataset_spec = {
+        "barset": {"axes": ["foo", "bar"], "dtype": np.float64}
+    }
+```
+
+
+## Actual Container Example
 
 ```python
 class DelaySpectrum(ContainerBase):
