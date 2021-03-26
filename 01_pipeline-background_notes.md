@@ -10,7 +10,6 @@ author: Richard Shaw
     - [Parameters](#parameters)
     - [Job script/manager](#pipeline-scripts)
 - [Parallelisation](#parallelisation)
-- [Cluster usage](#cluster-usage)
 
 ## Key pipeline concepts
 
@@ -258,4 +257,53 @@ pipeline
 
 ## Parallelisation
 
-## Cluster usage
+There are two problems we face:
+
+- our data is **large**, e.g. 1 TB+ per day, but nodes have 192 GB of memory
+- nodes have 48 cores, but most Python code can only use one at a time
+
+These are two distinct problems, but the solution is to do parallelisation of various sorts.
+
+There are two types of parallelisation in CHIME pipeline:
+
+- OpenMP: thread-based, ensure more CPU usage on a single machine (parallelisation on a single machine)
+- MPI: process-based, helps with spreading of data across multiple machines (parallelisation across machines)
+
+### OpenMP
+
+Allows a single process to use more of the computing resources on a single machine in parallel.
+Uses threads to do that. Threads are parallel streams of computation that *share* memory.
+
+**Note**: threads are typically problematic in Python due to the Global Interpreter Lock (GIL).
+Essentially, only one thread can do something at a time; Python is only ever running one stream of computation.
+This is to prevent all the bad things that can happen when multiple threads interact with the same bit of memory.
+You can use threads, but not written in Python.
+
+OpenMP parallelisation happens in roughly two places (which avoid the GIL issues):
+
+The first: Hidden in third party numerical routines. These are usually written in C.
+Examples are `BLAS` (linear algebra, used in `scipy.linalg`, `np.dot`), `libsharp` (Spherical Harmonic Transforms).
+In NumPy, only `np.dot` is parallelised using OpenMP, so bias towards `scipy.linalg`, if that is important to you.
+
+The second: explicitly in **Cython** modules written by us (e.g., `draco.util._fast_tools.pyx`).
+
+### MPI
+
+Splits computations between processes, which cannot share memory, but occupy different cores.
+MPI allows multiple processes to coordinate computation, and split up large datasets.
+This is network aware, processes can share data over the network.
+We use `OpenMPI` and the python wrapper `mpi4py`. It is pretty good.
+
+MPI uses communicator objects (in our code `comm`), to exchange information. They are essentially shared across all processes.
+Each process has a `rank` per communicator (essentially an index within that communicator).
+Each communicator has a shared `size`, i.e. the total number of processes that are members.
+In practice, we use a single communicator `MPI_COMM_WORLD`, which has *all* of the processes.
+
+### MPI aware containers
+
+MPI can be very complicated, but most problems we have are *trivially parallelisable*.
+If the data is split up in the right way, the computation does not need to exchange information to run.
+e.g., a regridder needs all time samples, but does not need to see all frequencies or baselines.
+Most containers can be distributed; they can be split across a specified axis.
+Different computations do have different requirements, and so we do need to be able to transform how the data is distributed.
+Within our code, the axis across which paralellisation occurs can be changed dynamically with `.redistribute(axis_name)`.
